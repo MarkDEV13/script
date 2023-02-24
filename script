@@ -1,48 +1,43 @@
-local flySpeed = 50
-local isFlying = false
+-- Определяем переменные скорости передвижения
+local walkSpeed = 16
+local runSpeed = 32
+
+-- Создаем UI
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
-gui.Parent = player.PlayerGui
 local mainFrame = Instance.new("Frame", gui)
 mainFrame.Position = UDim2.new(0.5, -100, 0.5, -50)
 mainFrame.Size = UDim2.new(0, 200, 0, 100)
 mainFrame.BackgroundTransparency = 0.5
 mainFrame.BackgroundColor3 = Color3.new(0, 0, 0)
-local flyButton = Instance.new("TextButton", mainFrame)
-flyButton.Position = UDim2.new(0.5, -50, 0.1, 0)
-flyButton.Size = UDim2.new(0, 100, 0, 50)
-flyButton.BackgroundTransparency = 0.5
-flyButton.BackgroundColor3 = Color3.new(0, 0, 0)
-flyButton.TextColor3 = Color3.new(1, 1, 1)
-flyButton.TextScaled = true
-flyButton.Text = "Fly"
-local stopButton = Instance.new("TextButton", mainFrame)
-stopButton.Position = UDim2.new(0.5, -50, 0.6, 0)
-stopButton.Size = UDim2.new(0, 100, 0, 50)
-stopButton.BackgroundTransparency = 0.5
-stopButton.BackgroundColor3 = Color3.new(0, 0, 0)
-stopButton.TextColor3 = Color3.new(1, 1, 1)
-stopButton.TextScaled = true
-stopButton.Text = "Stop"
 
-flyButton.MouseButton1Click:Connect(function()
-    isFlying = true
+-- Создаем кнопки
+local walkButton = Instance.new("TextButton", mainFrame)
+walkButton.Position = UDim2.new(0.5, -50, 0.1, 0)
+walkButton.Size = UDim2.new(0, 100, 0, 50)
+walkButton.BackgroundTransparency = 0.5
+walkButton.BackgroundColor3 = Color3.new(0, 0, 0)
+walkButton.TextColor3 = Color3.new(1, 1, 1)
+walkButton.TextScaled = true
+walkButton.Text = "Ходьба"
+
+local runButton = Instance.new("TextButton", mainFrame)
+runButton.Position = UDim2.new(0.5, -50, 0.6, 0)
+runButton.Size = UDim2.new(0, 100, 0, 50)
+runButton.BackgroundTransparency = 0.5
+runButton.BackgroundColor3 = Color3.new(0, 0, 0)
+runButton.TextColor3 = Color3.new(1, 1, 1)
+runButton.TextScaled = true
+runButton.Text = "Бег"
+
+-- Определяем функции для кнопок
+walkButton.MouseButton1Click:Connect(function()
+    player.Character.Humanoid.WalkSpeed = walkSpeed
 end)
 
-stopButton.MouseButton1Click:Connect(function()
-    isFlying = false
+runButton.MouseButton1Click:Connect(function()
+    player.Character.Humanoid.WalkSpeed = runSpeed
 end)
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    if isFlying then
-        local character = player.Character
-        if character then
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-                humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-                humanoid:ChangeState(Enum.HumanoidStateType.Flying)
-                humanoid:Move(Vector3.new(0, flySpeed, 0), false)
-            end
-        end
-    end
-end)
+-- Отображаем UI
+gui.Parent = player.PlayerGui
