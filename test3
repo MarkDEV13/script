@@ -1,0 +1,67 @@
+-- Получаем игрока и его персонажа
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:wait()
+
+-- Устанавливаем скорость вращения
+local rotationSpeed = 1
+
+-- Создаем функцию для вращения персонажа
+local function rotateCharacter()
+    local currentCFrame = character:GetPrimaryPartCFrame()
+    local newCFrame = currentCFrame * CFrame.Angles(0, math.rad(rotationSpeed), 0)
+    character:SetPrimaryPartCFrame(newCFrame)
+end
+
+-- Создаем GUI для управления скоростью вращения
+local gui = Instance.new("ScreenGui")
+gui.Parent = player.PlayerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 50)
+frame.Position = UDim2.new(0.5, -100, 0.9, 0)
+frame.BackgroundTransparency = 0.5
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BorderColor3 = Color3.new(1, 1, 1)
+frame.BorderSizePixel = 2
+frame.Parent = gui
+
+local label = Instance.new("TextLabel")
+label.Text = "Rotation speed"
+label.TextSize = 20
+label.Position = UDim2.new(0.025, 0, 0.2, 0)
+label.Size = UDim2.new(0.4, 0, 0.6, 0)
+label.TextColor3 = Color3.new(1, 1, 1)
+label.BackgroundTransparency = 1
+label.Parent = frame
+
+local decreaseButton = Instance.new("TextButton")
+decreaseButton.Text = "-"
+decreaseButton.TextSize = 20
+decreaseButton.Position = UDim2.new(0.45, 0, 0.2, 0)
+decreaseButton.Size = UDim2.new(0.1, 0, 0.6, 0)
+decreaseButton.TextColor3 = Color3.new(1, 1, 1)
+decreaseButton.BackgroundColor3 = Color3.new(0, 0, 0)
+decreaseButton.BorderColor3 = Color3.new(1, 1, 1)
+decreaseButton.BorderSizePixel = 2
+decreaseButton.Parent = frame
+decreaseButton.MouseButton1Click:Connect(function()
+    rotationSpeed = rotationSpeed - 1
+end)
+
+local speedLabel = Instance.new("TextLabel")
+speedLabel.Text = rotationSpeed
+speedLabel.TextSize = 20
+speedLabel.Position = UDim2.new(0.6, 0, 0.2, 0)
+speedLabel.Size = UDim2.new(0.2, 0, 0.6, 0)
+speedLabel.TextColor3 = Color3.new(1, 1, 1)
+speedLabel.BackgroundTransparency = 1
+speedLabel.Parent = frame
+
+local increaseButton = Instance.new("TextButton")
+increaseButton.Text = "+"
+increaseButton.TextSize = 20
+increaseButton.Position = UDim2.new(0.8, 0, 0.2, 0)
+increaseButton.Size = UDim2.new(0.1, 0, 0.6, 0)
+increaseButton.TextColor3 = Color3.new(1, 1, 1)
+increaseButton.BackgroundColor3 = Color3.new(0, 0, 0)
+increaseButton
